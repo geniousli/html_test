@@ -87,7 +87,6 @@ class Box {
   }
 }
 
-
 function getRandomIntInclusive(min, max) {
   min = Math.ceil(min);
   max = Math.floor(max);
@@ -109,18 +108,16 @@ class Panel {
       console.log('------')
       if(item.present()){
         let infer = ary[start];
-        console.log('-----------------')
         if(infer.present()){
           if(infer.equal(item)){
             infer.setValue(infer.value * 2)
             item.setValue(0);
-            start +=1;
           }else{
             let i_value = item.value;
             item.setValue(0);
             ary[start + 1].setValue(i_value);
-            start += 1;
           }
+          start += 1;
         }else{
           infer.setValue(item.value);
           item.setValue(0);
@@ -129,16 +126,12 @@ class Panel {
     }
   }
   random(){
-
     let ary = [];
     for(let i = 0 ; i < this.ary.length; i ++){
-      console.log('i is ---- ' + i);
-      if(this.ary[i].present()){
-      }else{
-        ary.push(i);
+      if(!this.ary[i].present()){
+        ary.push(1);
       }
     }
-
     if(ary.length <= 0){
       alert('失败了，重新开始吧');
       this.reset();
@@ -147,7 +140,6 @@ class Panel {
       this.ary[ary[index]].setValue(2);
       this.forceUpdate();
     }
-    
   }
 
   reset(){
@@ -155,7 +147,6 @@ class Panel {
       this.ary[i].setValue(0);
     }
     this.forceUpdate();
-    
   }
 
   iterate_ary(fun){
@@ -217,8 +208,6 @@ document.onkeydown = function(event) {
                 39: functions.moveRight,
                 40: functions.moveDown};
   let keys = Object.keys(config);
-  console.log(key);
-  console.log(keys);
   if(keys.indexOf(key) > -1){
     config[key].apply(panel);
     var timer = setInterval(function(){
