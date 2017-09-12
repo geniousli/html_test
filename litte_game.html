@@ -129,7 +129,7 @@ class Panel {
     let ary = [];
     for(let i = 0 ; i < this.ary.length; i ++){
       if(!this.ary[i].present()){
-        ary.push(1);
+        ary.push(i);
       }
     }
     if(ary.length <= 0){
