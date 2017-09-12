@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type="text/css">
+
+
+      #app {
+      width: 100%;
+      height: 100px;
+      display: relative;
+      position: relative;
+      background-color: blue;
+      }
+      #float-dom {
+      background-color: red;
+      position: absolute;
+      top: 0px;
+      right: 100px;
+      left: 0px;
+      bottom: 100px;
+      }
+      p.warning {
+          width: 100px;
+          color: red;
+          text-indent: 10%;
+      }
+
+      a[href][title] {
+          color: white;
+          font-size: 10px;
+      }
+      a[href] {
+          color: red;
+      }
+
+      a.baidu[href='baidu.com'] {
+          color: orange;
+      }
+      a:before {
+          content: '||'
+      }
+
+      #box_1 {
+          width: 400px;
+          margin: 100px 10px 10px;
+          background-color: red;
+          height: 100px;
+
+      }
+      #box_2 {
+          background-color: blue;
+          width: auto;
+          padding: 0px 100px;
+          border-right: 10px solid black;
+      }
+      li {
+          margin-top: 10px;
+          margin-bottom: 15px;
+      }
+
+      p.neg {
+          margin-top: -50px;
+          margin-left: -10px;
+      }
+
+      .inline_box {
+          line-height: -1;
+      }
+
+      .inline_box strong {
+          font-size: 2em;
+          border-top: red solid;
+      }
+
+      .inline_box strong.padding {
+          padding: 10px 10px;
+          font-size: 1em;
+          background-color: gray;
+          margin: 0 10px;
+
+      }
+
+      .inline_box em{
+          font-size: 0.5em;
+          vertical-align: top;
+          border-top: red solid ;
+      }
+
+      .relative {
+          background-color: red;
+          height: 100px;
+          top: 100px;
+          position: relative;
+          visibility: hidden;
+
+      }
+
+      .relative > .absolute{
+          background-color: yellow;
+          top: 0;
+          width: 50%;
+          left: 0;
+          height: 100%;
+      }
+
+
+      .relative .absolute_1 {
+          top: 0;
+          left: 50%;
+          right: 0;
+          height: 50%;
+          background-color: blue;
+      }
+
+      .contact {
+          background-color: red;
+          position: fixed;
+          bottom: 0px;
+          right: 0px;
+          height: 100px;
+          width: 100px;
+      }
+    </style>
+    <title>html box test</title>
+  </head>
+
+  <body>
+    <div id="app">
+      <div id="float-dom"></div>
+      <p class="warning">
+        people warning
+      </p>
+      <a href="mi.com" title="mi.com"> mi.com </a>
+      <a class="baidu" href="baidu.com"> baidu </a>
+    </div>
+    <div id="box_1">
+      <div id="box_2">
+        <p>
+          asdfaaaaaaaaaaaaaaaaaaaaaaaaaaaaasddddddd
+          </p>
+      </div>
+    </div>
+
+    <ol>
+      <li>
+        first line
+      </li>
+      <li style="margin-top: -20px;">
+        second line
+      </li>
+      <li>
+        third line
+      </li>
+    </ol>
+
+    <div style="width: 420px; background-color: silver; padding: 10px; margin-top: 50px; border: 1px solid;">
+      <p class="neg">
+        a paragraph
+      </p>
+      a div
+    </div>
+
+
+    <p class="inline_box">
+
+      <em style="font-size: 1em;"> test paragraph content span etc </em> <strong> test paragraph content span etc   </strong>   <em>test paragraph content span etc </em>     test paragraph content span etc      test paragraph content span etc      test paragraph content span etc      test paragraph content span etc      test paragraph content span etc           vertical-align: top;
+          vertical-align: top;
+          vertical-align: top;
+          vertical-align: top;
+          vertical-align: top;
+          vertical-align: top;
+          vertical-align: top;
+          vertical-align: top;
+      <strong class="padding">vertical-align: top; </strong>
+          vertical-align: top;
+          vertical-align: top;
+          vertical-align: top;
+          vertical-align: top;
+
+    </p>
+
+    <div>
+      <div class="relative">
+        <div class="absolute">
+
+          <div class="absolute_1">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <p>
+
+                vertical-align: top;
+          vertical-align: top;
+          vertical-align: top;
+          vertical-align: top;
+          vertical-align: top;
+          vertical-align: top;
+          vertical-align: top;
+
+    </p>
+
+    <div class="contact">
+      <p>
+        conact me please
+      </p>
+    </div>
+    </body>
+</html>

@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type="text/css">
+
+
+    .box {
+      float: left;
+      border-style: solid;
+      margin: 2px;
+      border-width: 1px;
+      height: 100px;
+      width: 100px;
+      background-color:#CDC1B4;
+      }
+      .box.box_filed {
+        background-color: red;
+
+      }
+      .box_filed p{
+          padding-top: 25px;
+          text-align: center;
+          font-size: 50px;
+          margin: 0px;
+      }
+    </style>
+    <title>html box test</title>
+  </head>
+
+  <body>
+
+    <div class="main">
+      
+      <div class="box" id='box_0'> </div>
+      <div class="box" id='box_1'> </div>
+      <div class="box" id='box_2'> </div>
+      <div class="box" id='box_3'> </div>
+      <div style="clear: both"> </div>
+      <div class="box" id='box_4'> </div>
+      <div class="box" id='box_5'> </div>
+      <div class="box" id='box_6'> </div>
+      <div class="box" id='box_7'> </div>
+      <div style="clear: both"> </div>
+      <div class="box" id='box_8'> </div>
+      <div class="box" id='box_9'> </div>
+      <div class="box" id='box_10'> </div>
+      <div class="box" id='box_11'> </div>
+      <div style="clear: both"> </div>
+      <div class="box" id='box_12'> </div>
+      <div class="box" id='box_13'> </div>
+      <div class="box" id='box_14'> </div>
+      <div class="box" id='box_15'> </div>
+
+
+</div>
+    <script type='text/javascript' src="./jquery-3.2.1.min.js"> </script>
+  </body>
+
+  <script type="text/javascript">
+
+class Box {
+  constructor(value) {
+    this.value = value;
+  }
+
+  setValue(value){
+    this.value = value;
+  }
+    
+  equal(box) {
+    if(this.value == box.value){
+      return true;
+    }else{
+      return false;
+    }
+  }
+
+  present(){
+    if(this.value != 0){
+      return true;
+    }else{
+      return false;
+    }
+  }
+}
+
+
+function getRandomIntInclusive(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+class Panel {
+  constructor() {
+    this.ary = [];
+    for(let i = 0; i< 16; i ++) {
+      this.ary.push(new Box(0));
+    }
+  }
+  
+  handleLine(ary){
+    let start = 0;
+    for(let i = 1; i < ary.length; i++){
+      let item = ary[i];
+      console.log('------')
+      if(item.present()){
+        let infer = ary[start];
+        console.log('-----------------')
+        if(infer.present()){
+          if(infer.equal(item)){
+            infer.setValue(infer.value * 2)
+            item.setValue(0);
+            start +=1;
+          }else{
+            let i_value = item.value;
+            item.setValue(0);
+            ary[start + 1].setValue(i_value);
+            start += 1;
+          }
+        }else{
+          infer.setValue(item.value);
+          item.setValue(0);
+        }
+      }
+    }
+  }
+  random(){
+
+    let ary = [];
+    for(let i = 0 ; i < this.ary.length; i ++){
+      console.log('i is ---- ' + i);
+      if(this.ary[i].present()){
+      }else{
+        ary.push(i);
+      }
+    }
+
+    if(ary.length <= 0){
+      alert('失败了，重新开始吧');
+      this.reset();
+    }else{
+      let index = getRandomIntInclusive(0, ary.length - 1);      
+      this.ary[ary[index]].setValue(2);
+      this.forceUpdate();
+    }
+    
+  }
+
+  reset(){
+    for(let i = 0; i < this.ary.length;i ++) {
+      this.ary[i].setValue(0);
+    }
+    this.forceUpdate();
+    
+  }
+
+  iterate_ary(fun){
+    for(let i = 0; i < 4; i ++){
+      let ary = [];
+      for(let y = 0; y < 4; y++){
+        let index = fun(i, y);
+        ary.push(this.ary[index]);
+      }
+      this.handleLine(ary);
+    }
+    this.forceUpdate();
+  }
+
+  moveUp(){
+    this.iterate_ary(function(i, y){
+      return i + y * 4;
+    })
+  }
+  moveDown(){
+    this.iterate_ary(function(i, y){
+      return (3 -y) * 4 + (3 - i);
+    })
+  }
+  moveLeft(){
+    this.iterate_ary(function(i, y){
+      return i * 4 + y;
+    })
+  }
+  moveRight(){
+    this.iterate_ary(function(i, y){
+      return (3 - y) + i * 4;
+    })
+  }
+  
+  forceUpdate(){
+    this.ary.forEach(function(item, index){
+      let id = `#box_${index}`;
+      let $dom = $(id);
+      if(item.present()){
+        $dom.addClass('box_filed');
+        $dom.html(`<p> ${item.value} </p>`)
+      }else{
+        $dom.removeClass('box_filed')
+        $dom.html('')
+      }
+    })
+  }
+  
+}
+
+
+let panel = new Panel();
+document.onkeydown = function(event) {
+  var key = event.keyCode +'';
+  var functions = Panel.prototype;
+  let config = {38: functions.moveUp,
+                37: functions.moveLeft,
+                39: functions.moveRight,
+                40: functions.moveDown};
+  let keys = Object.keys(config);
+  console.log(key);
+  console.log(keys);
+  if(keys.indexOf(key) > -1){
+    config[key].apply(panel);
+    var timer = setInterval(function(){
+      panel.random();
+      clearInterval(timer);
+    }, 100);
+  }
+}
+
+
+  </script>
+</html>
