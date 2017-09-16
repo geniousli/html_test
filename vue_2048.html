@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type="text/css">
+
+
+    .box {
+      float: left;
+      border-style: solid;
+      margin: 2px;
+      border-width: 1px;
+      height: 100px;
+      width: 100px;
+      background-color:#CDC1B4;
+      }
+      .box.box_filed {
+        background-color: red;
+
+      }
+      .box_filed p{
+          padding-top: 25px;
+          text-align: center;
+          font-size: 50px;
+          margin: 0px;
+      }
+    </style>
+    <title>html box test</title>
+  </head>
+
+  <body>
+
+    <div class="main" id="main_box">
+      <div class="box" v-for="item in first_line" v-bind:class="{box_filed: item.value !== 0}" :key="item.index">
+        <p v-if="item.value !== 0">{{item.value}} </p>
+      </div>
+      <div style="clear: both"> </div>
+      <div class="box" v-for="item in second_line" v-bind:class="{box_filed: item.value !== 0}" :key="item.index">
+        <p v-if="item.value !== 0"> {{item.value}} </p>
+      </div>
+      <div style="clear: both"> </div>
+      <div class="box" v-for="item in third_line" v-bind:class="{box_filed: item.value !== 0}" :key="item.index">
+        <p v-if="item.value !== 0"> {{item.value}} </p>
+      </div>
+      <div style="clear: both"> </div>
+      <div class="box" v-for="item in fourth_line" v-bind:class="{box_filed: item.value !== 0}" :key="item.index">
+        <p v-if="item.value !== 0"> {{item.value}} </p>
+      </div>
+      <div style="clear: both"> </div>
+
+      <button v-on:click="up"> up </button>
+      <button v-on:click="down"> down </button>
+      <button v-on:click="right"> right </button>
+      <button v-on:click="left"> left </button>
+      
+</div>
+    <script type='text/javascript' src="./vue.js"> </script>
+  </body>
+
+  <script type="text/javascript">
+    var array = [{value: 10, index: 0}];
+    for(let i = 1; i < 16; i++){
+                       array.push({value: 0, index: i})
+                       }
+     array[8] = {value: 3, index: 8};
+     new Vue({
+       el: '#main_box',
+       data: {
+         array: array,
+       },
+       computed: {
+         first_line: function(){
+           return this.array.slice(0, 4);
+         },
+         second_line: function(){
+           return this.array.slice(4, 8);
+         },
+         third_line: function(){
+           return this.array.slice(8, 12);
+         },
+         fourth_line: function(){
+           return this.array.slice(12, 16);
+         }
+       },
+       methods: {
+         random: function(){
+           var randomAry = [];
+           this.array.forEach(function(item, index){
+             if(item.value === 0){
+               randomAry.push(index);
+             }
+           })
+           if(randomAry.length <= 0){
+             alert('没有空间了');
+           }else{
+             let index = getRandomIntInclusive(0, randomAry.length - 1);
+             this.array.splice(randomAry[index], 1, {value: 2, index: randomAry[index]})
+           }
+           
+         },
+         proccessOperate: function(func){
+           for(let x = 0; x < 4; x ++){
+             let array = [];
+             for(let y = 0; y < 4; y ++){
+               array.push(func(x, y))
+             }
+             var result = array.map(function(item){
+               return this.array[item].value;
+             })
+             let moved = this.handleLine(result);
+             array.forEach(function(item, index){
+               this.array.splice(item, 1, {value: moved[index], index: item});
+             })
+           }
+         },
+         up: function(){
+           this.proccessOperate(function(x, y){
+             return x + y * 4;
+           })
+           this.random();
+         },
+         down: function(){
+           this.proccessOperate(function(x, y){
+             return (3 - y) * 4 + (3 - x);
+           })
+           this.random();
+         },
+         right: function(){
+           this.proccessOperate(function(x, y){
+             return (3 - y) + x * 4;
+           })
+           this.random();
+         },
+         left: function(){
+           this.proccessOperate(function(x, y){
+             return x * 4 + y;
+           })
+           this.random();
+         },
+         handleLine: function(ary){
+           let start = 0;
+           for(let i = 1; i < ary.length;  i ++){
+             let infer = ary[start],
+                 item = ary[i];
+             if(item !== 0){
+               if(item === infer){
+                 ary[start] = item * 2;
+                 start += 1;
+                 ary[i] = 0;
+               }else if(infer !== 0){
+                  ary[i] = 0;
+                 start += 1;
+                 ary[start] = item;
+               }else{
+                 ary[start] = item;
+                 start += 1;
+                 ary[i] = 0;
+               }
+             }
+           }
+           return ary;
+         },
+       }
+       
+     })
+
+function getRandomIntInclusive(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+  </script>
+</html>
